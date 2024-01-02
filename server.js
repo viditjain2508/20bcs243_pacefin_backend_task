@@ -10,6 +10,7 @@ const connection = mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
+    database: process.env.toDo
 });
 
 connection.connect((err) => {
@@ -18,7 +19,7 @@ connection.connect((err) => {
         return;
     }
     console.log("Connected Successfully");
-    connection.query('CREATE DATABASE IF NOT EXISTS ToDo', (err, result) => {
+    connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.toDo}`, (err, result) => {
         if (err) {
             console.error('Error Creating Database:', err);
             return;
@@ -27,7 +28,7 @@ connection.connect((err) => {
         if (result.affectedRows > 0) {
             console.log('Database Created Successfully');
         }
-        connection.query('USE ToDo', (err, result) => {
+        connection.query(`USE ${process.env.toDo}`, (err, result) => {
             if (err) {
                 console.error('Error accessing Database:', err);
                 return;
